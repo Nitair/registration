@@ -10,7 +10,7 @@ class TrinityHandler
     {
         // Execute needed update for OS detection
         $pdo = TrinityHandler::BuildConnection(false);
-        $statement = $pdo->prepare('ALTER TABLE account ALTER COLUMN os VARCHAR(10)');
+        $statement = $pdo->prepare('ALTER TABLE account ALTER COLUMN os VARCHAR(55)');
         $statement->execute();
         $pdo = null;
 
