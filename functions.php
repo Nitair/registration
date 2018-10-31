@@ -1,4 +1,5 @@
 <?php
+
 if (count(get_included_files()) == 1) {
     exit("Direct access denied.");
     die();
@@ -28,45 +29,29 @@ class TrinityHandler
 {
     function GetDomainName($GetPlainOrHTTP)
     {
-        if ($GetPlainOrHTTP == true)
-        {
-            $domain = 'http://localhost/registration';
-        }
-        else
+        if ($GetPlainOrHTTP == false)
         {
             $domain = 'localhost';
         }
+        
+        $domain = 'http://localhost/registration';
 
         return $domain;
     }
 
     function BuildConnection($debug)
     {
-        /*
-        * @param $DatabaseName     default: auth
-        * @param $DatabaseHost     default: localhost
-        * @param $DatabasePort     default: 3306
-        * @param $DatabaseUsername default: trinity
-        * @param $DatabasePassword default: trinity
-        */
-        $DatabaseName       = 'auth';
-        $DatabaseHost       = 'localhost';
-        $DatabasePort       = '3306';
-        $DatabaseUsername   = 'trinity';
-        $DatabasePassword   = 'trinity';
 
-        if ($debug == true)
-        {
-            $logon = @new PDO("mysql:host=$DatabaseHost;dbname=$DatabaseName;port=$DatabasePort", 
-                            $DatabaseUsername, 
-                            $DatabasePassword, 
-                            array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-        }
-        else
-        {
-            $logon = @new PDO("mysql:host=$DatabaseHost;dbname=$DatabaseName;port=$DatabasePort", 
-                            $DatabaseUsername, 
-                            $DatabasePassword);
+        $dbname = 'auth';
+        $dbhost = 'localhost';
+        $dbport = '3306';
+        $dbuser = 'trinity';
+        $dbpass = 'trinity';
+
+        if ($debug == true) {
+            $logon = @new PDO("mysql:host=$dbhost;dbname=$dbname;port=$dbport", $dbuser, $dbpass, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+        } else {
+            $logon = @new PDO("mysql:host=$dbhost;dbname=$dbname;port=$dbport", $dbuser, $dbpass);
         }
 
         return $logon;
@@ -109,7 +94,7 @@ class TrinityHandler
     {
         $port = '3724';
         $host = 'sunrage-network.com';
-        return is_resource( @fsockopen($host, $port) ) 
+        return is_resource(@fsockopen($host, $port)) 
             ? '<span class="badge badge-success">Auth-Port does listen</span>' 
             : '<span class="badge badge-danger">Auth-Port does not listen</span>'; 
     }
@@ -187,8 +172,7 @@ class TrinityHandler
             )
         );
 
-        if ($result)
-        {
+        if ($result == true) {
             echo "Report: Registration was done successfully.";
         }
         else
@@ -199,3 +183,4 @@ class TrinityHandler
         $pdo = null;
     }
 }
+?>
