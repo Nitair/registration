@@ -4,6 +4,8 @@ if (count(get_included_files()) == 1) {
     die();
 }
 
+$user_agent = $_SERVER['HTTP_USER_AGENT'];
+
 class TrinityHandler
 {
     function RunInstaller()
@@ -67,7 +69,7 @@ class TrinityHandler
         return $logon;
     }
 
-    function CheckUsername()
+    function CheckUsername($username)
     {
         $pdo = TrinityHandler::BuildConnection(false);
         $statement = $pdo->prepare("SELECT username FROM account WHERE username = ?");
@@ -111,117 +113,43 @@ class TrinityHandler
 
     function GetOperationSystem() 
     {
-        if ( isset( $_SERVER ) ) 
-        {
-            $agent = $_SERVER['HTTP_USER_AGENT'];
-        }
-        else 
-        {
-            global $HTTP_SERVER_VARS;
-            if ( isset( $HTTP_SERVER_VARS ) ) 
-            {
-                $agent = $HTTP_SERVER_VARS['HTTP_USER_AGENT'];
-            }
-            else 
-            {
-                global $HTTP_USER_AGENT;
-                $agent = $HTTP_USER_AGENT;
-            }
-        }
+        global $user_agent;
 
-        $ros[] = array('Windows XP', 'Windows XP');
-        $ros[] = array('Windows NT 5.1|Windows NT5.1)', 'Windows XP');
-        $ros[] = array('Windows 2000', 'Windows 2000');
-        $ros[] = array('Windows NT 5.0', 'Windows 2000');
-        $ros[] = array('Windows NT 4.0|WinNT4.0', 'Windows NT');
-        $ros[] = array('Windows NT 5.2', 'Windows Server 2003');
-        $ros[] = array('Windows NT 6.0', 'Windows Vista');
-        $ros[] = array('Windows NT 7.0', 'Windows 7');
-        $ros[] = array('Windows NT 10.0', 'Windows 10');
-        $ros[] = array('Windows CE', 'Windows CE');
-        $ros[] = array('(media center pc).([0-9]{1,2}\.[0-9]{1,2})', 'Windows Media Center');
-        $ros[] = array('(win)([0-9]{1,2}\.[0-9x]{1,2})', 'Windows');
-        $ros[] = array('(win)([0-9]{2})', 'Windows');
-        $ros[] = array('(windows)([0-9x]{2})', 'Windows');
-        $ros[] = array('Windows ME', 'Windows ME');
-        $ros[] = array('Win 9x 4.90', 'Windows ME');
-        $ros[] = array('Windows 98|Win98', 'Windows 98');
-        $ros[] = array('Windows 95', 'Windows 95');
-        $ros[] = array('(windows)([0-9]{1,2}\.[0-9]{1,2})', 'Windows');
-        $ros[] = array('win32', 'Windows');
-        $ros[] = array('(java)([0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,2})', 'Java');
-        $ros[] = array('(Solaris)([0-9]{1,2}\.[0-9x]{1,2}){0,1}', 'Solaris');
-        $ros[] = array('dos x86', 'DOS');
-        $ros[] = array('unix', 'Unix');
-        $ros[] = array('Mac OS X', 'Mac OS X');
-        $ros[] = array('Mac_PowerPC', 'Macintosh PowerPC');
-        $ros[] = array('(mac|Macintosh)', 'Mac OS');
-        $ros[] = array('(sunos)([0-9]{1,2}\.[0-9]{1,2}){0,1}', 'SunOS');
-        $ros[] = array('(beos)([0-9]{1,2}\.[0-9]{1,2}){0,1}', 'BeOS');
-        $ros[] = array('(risc os)([0-9]{1,2}\.[0-9]{1,2})', 'RISC OS');
-        $ros[] = array('os/2', 'OS/2');
-        $ros[] = array('freebsd', 'FreeBSD');
-        $ros[] = array('openbsd', 'OpenBSD');
-        $ros[] = array('netbsd', 'NetBSD');
-        $ros[] = array('irix', 'IRIX');
-        $ros[] = array('plan9', 'Plan9');
-        $ros[] = array('osf', 'OSF');
-        $ros[] = array('aix', 'AIX');
-        $ros[] = array('GNU Hurd', 'GNU Hurd');
-        $ros[] = array('(fedora)', 'Linux - Fedora');
-        $ros[] = array('(kubuntu)', 'Linux - Kubuntu');
-        $ros[] = array('(ubuntu)', 'Linux - Ubuntu');
-        $ros[] = array('(debian)', 'Linux - Debian');
-        $ros[] = array('(CentOS)', 'Linux - CentOS');
-        $ros[] = array('(Mandriva).([0-9]{1,3}(\.[0-9]{1,3})?(\.[0-9]{1,3})?)', 'Linux - Mandriva');
-        $ros[] = array('(SUSE).([0-9]{1,3}(\.[0-9]{1,3})?(\.[0-9]{1,3})?)', 'Linux - SUSE');
-        $ros[] = array('(Dropline)', 'Linux - Slackware (Dropline GNOME)');
-        $ros[] = array('(ASPLinux)', 'Linux - ASPLinux');
-        $ros[] = array('(Red Hat)', 'Linux - Red Hat');
-        $ros[] = array('(linux)', 'Linux');
-        $ros[] = array('(amigaos)([0-9]{1,2}\.[0-9]{1,2})', 'AmigaOS');
-        $ros[] = array('amiga-aweb', 'AmigaOS');
-        $ros[] = array('amiga', 'Amiga');
-        $ros[] = array('AvantGo', 'PalmOS');
-        $ros[] = array('[0-9]{1,2}\.[0-9]{1,2}\.[0-9]{1,3})', 'Linux');
-        $ros[] = array('(webtv)/([0-9]{1,2}\.[0-9]{1,2})', 'WebTV');
-        $ros[] = array('Dreamcast', 'Dreamcast OS');
-        $ros[] = array('GetRight', 'Windows');
-        $ros[] = array('go!zilla', 'Windows');
-        $ros[] = array('gozilla', 'Windows');
-        $ros[] = array('gulliver', 'Windows');
-        $ros[] = array('ia archiver', 'Windows');
-        $ros[] = array('NetPositive', 'Windows');
-        $ros[] = array('mass downloader', 'Windows');
-        $ros[] = array('microsoft', 'Windows');
-        $ros[] = array('offline explorer', 'Windows');
-        $ros[] = array('teleport', 'Windows');
-        $ros[] = array('web downloader', 'Windows');
-        $ros[] = array('webcapture', 'Windows');
-        $ros[] = array('webcollage', 'Windows');
-        $ros[] = array('webcopier', 'Windows');
-        $ros[] = array('webstripper', 'Windows');
-        $ros[] = array('webzip', 'Windows');
-        $ros[] = array('wget', 'Windows');
-        $ros[] = array('Java', 'Unknown');
-        $ros[] = array('flashget', 'Windows');
-        $ros[] = array('MS FrontPage', 'Windows');
-        $ros[] = array('(msproxy)/([0-9]{1,2}.[0-9]{1,2})', 'Windows');
-        $ros[] = array('(msie)([0-9]{1,2}.[0-9]{1,2})', 'Windows');
-        $ros[] = array('libwww-perl', 'Unix');
-        $ros[] = array('UP.Browser', 'Windows CE');
-        $ros[] = array('NetAnts', 'Windows');
-        $file = count ( $ros );
-        $os = '';
-        for ( $n=0 ; $n<$file ; $n++ )
-        {
-            if ( preg_match('/'.$ros[$n][0].'/i' , $agent, $name))
-            {
-                $os = @$ros[$n][1].' '.@$name[2];
-                break;
+        $os_platform    =   "Unknown OS Platform";
+
+        $os_array       =   array(
+                                '/windows nt 6.2/i'     =>  'Windows 8',
+                                '/windows nt 6.1/i'     =>  'Windows 7',
+                                '/windows nt 6.0/i'     =>  'Windows Vista',
+                                '/windows nt 5.2/i'     =>  'Windows Server 2003/XP x64',
+                                '/windows nt 5.1/i'     =>  'Windows XP',
+                                '/windows xp/i'         =>  'Windows XP',
+                                '/windows nt 5.0/i'     =>  'Windows 2000',
+                                '/windows me/i'         =>  'Windows ME',
+                                '/win98/i'              =>  'Windows 98',
+                                '/win95/i'              =>  'Windows 95',
+                                '/win16/i'              =>  'Windows 3.11',
+                                '/macintosh|mac os x/i' =>  'Mac OS X',
+                                '/mac_powerpc/i'        =>  'Mac OS 9',
+                                '/linux/i'              =>  'Linux',
+                                '/ubuntu/i'             =>  'Ubuntu',
+                                '/iphone/i'             =>  'iPhone',
+                                '/ipod/i'               =>  'iPod',
+                                '/ipad/i'               =>  'iPad',
+                                '/android/i'            =>  'Android',
+                                '/blackberry/i'         =>  'BlackBerry',
+                                '/webos/i'              =>  'Mobile'
+                            );
+
+        foreach ($os_array as $regex => $value) { 
+
+            if (preg_match($regex, $user_agent)) {
+                $os_platform    =   $value;
             }
-        }
-        return trim ( $os );
+
+        }   
+
+        return $os_platform;
     }
 
 
@@ -231,7 +159,7 @@ class TrinityHandler
         $password_hash  = sha1($username . ':' . $password);
 
         // Get some data
-        $os             = TrinityHandler::GetOperationSystem();
+        $current_os     = TrinityHandler::GetOperationSystem();
         $current_time   = date('Y-m-d H:i:s');
         $pdo            = TrinityHandler::BuildConnection(false);
         $ip             = $_SERVER['HTTP_CLIENT_IP']?$_SERVER['HTTP_CLIENT_IP']:($_SERVER['HTTP_X_FORWARDE‌​D_FOR']?$_SERVER['HTTP_X_FORWARDED_FOR']:$_SERVER['REMOTE_ADDR']);
@@ -251,7 +179,7 @@ class TrinityHandler
                 $ip,
                 $ip,
                 $current_time,
-                $os
+                $current_os
             )
         );
 
