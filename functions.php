@@ -141,7 +141,6 @@ function GetOperationSystem()
     return $os_platform;
 }
 
-
 function DoRegister($username, $password, $mail)
 {
     // Convert plain password to salted sha1 hash
