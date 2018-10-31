@@ -7,19 +7,19 @@ if (count(get_included_files()) == 1) {
 
 include_once 'functions.php';
 
-if ((file_exists('.installed') == false) && (TrinityHandler::CheckOnlineStatus() == true))
+if ((file_exists('.installed') == false) && (CheckOnlineStatus() == true))
 {
-    TrinityInstaller::StartInstaller();
+    StartInstaller();
 }
 
-$domain = TrinityHandler::GetDomainName(true);
+$domain = GetDomainName(true);
 
 echo '<html>
 <header>
 <!-- Self-hosted stuff -->
-<link rel="stylesheet" href="'; echo filter_var($domain, FILTER_SANITIZE_STRING) , '/style/custom.css">
-<link rel="stylesheet" href="'; echo filter_var($domain, FILTER_SANITIZE_STRING) , '/style/animate.css">
-<link rel="stylesheet" href="'; echo filter_var($domain, FILTER_SANITIZE_STRING) , '/style/background.css">
+<link rel="stylesheet" href="'; echo ClearInput($domain) , '/style/custom.css">
+<link rel="stylesheet" href="'; echo ClearInput($domain) , '/style/animate.css">
+<link rel="stylesheet" href="'; echo ClearInput($domain) , '/style/background.css">
 
 <!-- External-hosted stuff -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">

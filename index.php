@@ -7,14 +7,14 @@ include_once 'functions.php';
 $ShowFormular = true;
 
 // register form handling
-if (isset($_GET['register']) && 'Yes' === $_POST['register']) 
+if (isset($_GET['register'])) 
 {
     $error          = false;
     $error_message  = '';
-    $username       = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
-    $password1      = filter_var($_POST['password1'], FILTER_SANITIZE_STRING);
-    $password2      = filter_var($_POST['password2'], FILTER_SANITIZE_STRING);
-    $mail           = filter_var($_POST['mail'], FILTER_SANITIZE_STRING);
+    $username       = ClearInput($_POST['username']);
+    $password1      = ClearInput($_POST['password1']);
+    $password2      = ClearInput($_POST['password2']);
+    $mail           = ClearInput($_POST['mail']);
 
     if (strlen($username) < 3 || ctype_alpha($username))
     {
@@ -36,9 +36,9 @@ if (isset($_GET['register']) && 'Yes' === $_POST['register'])
         $error_message = 'Report: The mail address isnt valid';
         $error = true;
     }
-    else if (TrinityHandler::CheckOnlineStatus(false) == true)
+    else if (CheckOnlineStatus(false) == true)
     {
-        if (TrinityHandler::CheckUsername($username))
+        if (CheckUsername($username))
         {
             $error_message = 'Report: The username already exist';
             $error = true;
@@ -46,7 +46,7 @@ if (isset($_GET['register']) && 'Yes' === $_POST['register'])
     
         if ($error == false)
         {
-            TrinityHandler::DoRegistration(strtolower($username), $password2, $mail);
+            DoRegistration(strtolower($username), $password2, $mail);
         }
     }
 }
@@ -65,7 +65,7 @@ if (($ShowFormular == true) && (file_exists('.installed') == true))
         if (isset($error_message))
         {
             echo '<br>';
-            echo '<blockquote style="color: red; font-weight: bold;"> ! ! ! ', filter_var($error_message, FILTER_SANITIZE_STRING), ' ! ! !</blockquote>';
+            echo '<blockquote style="color: red; font-weight: bold;"> ! ! ! ', ClearInput($error_message), ' ! ! !</blockquote>';
             echo '<br>';
         }
         echo '<form class="form-horizontal" action="?register=1" method="post">
@@ -91,7 +91,7 @@ if (($ShowFormular == true) && (file_exists('.installed') == true))
             </div>
             <hr>
             <div class="col-auto" style="text-align: center;">';
-            if (TrinityHandler::CheckOnlineStatus())
+            if (CheckOnlineStatus())
             {
                 echo '<button type="submit" class="btn btn-primary">Register</button>';
             }
