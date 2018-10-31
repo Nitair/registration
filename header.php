@@ -8,7 +8,7 @@ include_once 'functions.php';
 
 if ((file_exists('.installed') == false) && (TrinityHandler::CheckOnlineStatus() == true))
 {
-    TrinityHandler::RunInstaller();
+    TrinityInstaller::StartInstaller();
 }
 
 $domain = TrinityHandler::GetDomainName(true);

@@ -6,9 +6,9 @@ if (count(get_included_files()) == 1) {
 
 $user_agent = $_SERVER['HTTP_USER_AGENT'];
 
-class TrinityHandler
+class TrinityInstaller
 {
-    function RunInstaller()
+    function StartInstaller()
     {
         // Execute needed update for OS detection
         $pdo = TrinityHandler::BuildConnection(false);
@@ -22,7 +22,10 @@ class TrinityHandler
         fwrite($installer, date('Y-m-d H:i:s'));
         fclose($installer);
     }
+}
 
+class TrinityHandler
+{
     function GetDomainName($GetPlainOrHTTP)
     {
         if ($GetPlainOrHTTP == true)
@@ -61,7 +64,7 @@ class TrinityHandler
         }
         else
         {
-            $logon = new PDO("mysql:host=$DatabaseHost;dbname=$DatabaseName;port=$DatabasePort", 
+            $logon = @new PDO("mysql:host=$DatabaseHost;dbname=$DatabaseName;port=$DatabasePort", 
                             $DatabaseUsername, 
                             $DatabasePassword);
         }
@@ -162,7 +165,7 @@ class TrinityHandler
         $current_os     = TrinityHandler::GetOperationSystem();
         $current_time   = date('Y-m-d H:i:s');
         $pdo            = TrinityHandler::BuildConnection(false);
-        $ip             = $_SERVER['HTTP_CLIENT_IP']?$_SERVER['HTTP_CLIENT_IP']:($_SERVER['HTTP_X_FORWARDE‌​D_FOR']?$_SERVER['HTTP_X_FORWARDED_FOR']:$_SERVER['REMOTE_ADDR']);
+        $current_ip     = $_SERVER['HTTP_CLIENT_IP']?$_SERVER['HTTP_CLIENT_IP']:($_SERVER['HTTP_X_FORWARDE‌​D_FOR']?$_SERVER['HTTP_X_FORWARDED_FOR']:$_SERVER['REMOTE_ADDR']);
 
         $statement = $pdo->prepare(
             "INSERT INTO `account` (`username`, `sha_pass_hash`, `v`, `s`, `reg_mail`, `email`, `last_ip`, `last_attempt_ip`, `last_login`, `os`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
@@ -176,8 +179,8 @@ class TrinityHandler
                 '0',
                 $mail,
                 $mail,
-                $ip,
-                $ip,
+                $current_ip,
+                $current_ip,
                 $current_time,
                 $current_os
             )
