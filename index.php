@@ -1,4 +1,5 @@
 <?php
+
 include_once 'header.php';
 include_once 'functions.php';
 
@@ -6,14 +7,14 @@ include_once 'functions.php';
 $ShowFormular = true;
 
 // register form handling
-if (isset($_GET['register'])) 
+if (isset($_GET['register']) && 'Yes' === $_POST['register']) 
 {
     $error          = false;
     $error_message  = '';
-    $username       = $_POST['username'];
-    $password1      = $_POST['password1'];
-    $password2      = $_POST['password2'];
-    $mail           = $_POST['mail'];
+    $username       = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
+    $password1      = filter_var($_POST['password1'], FILTER_SANITIZE_STRING);
+    $password2      = filter_var($_POST['password2'], FILTER_SANITIZE_STRING);
+    $mail           = filter_var($_POST['mail'], FILTER_SANITIZE_STRING);
 
     if (strlen($username) < 3 || ctype_alpha($username))
     {
@@ -64,7 +65,7 @@ if (($ShowFormular == true) && (file_exists('.installed') == true))
         if (isset($error_message))
         {
             echo '<br>';
-            echo '<blockquote style="color: red; font-weight: bold;"> ! ! ! ', $error_message, ' ! ! !</blockquote>';
+            echo '<blockquote style="color: red; font-weight: bold;"> ! ! ! ', filter_var($error_message, FILTER_SANITIZE_STRING), ' ! ! !</blockquote>';
             echo '<br>';
         }
         echo '<form class="form-horizontal" action="?register=1" method="post">
