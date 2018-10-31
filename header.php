@@ -16,9 +16,9 @@ $domain = TrinityHandler::GetDomainName(true);
 echo '<html>
 <header>
 <!-- Self-hosted stuff -->
-<link rel="stylesheet" href="'; echo $domain , '/style/custom.css">
-<link rel="stylesheet" href="'; echo $domain , '/style/animate.css">
-<link rel="stylesheet" href="'; echo $domain , '/style/background.css">
+<link rel="stylesheet" href="'; echo filter_var($domain, FILTER_SANITIZE_STRING) , '/style/custom.css">
+<link rel="stylesheet" href="'; echo filter_var($domain, FILTER_SANITIZE_STRING) , '/style/animate.css">
+<link rel="stylesheet" href="'; echo filter_var($domain, FILTER_SANITIZE_STRING) , '/style/background.css">
 
 <!-- External-hosted stuff -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
