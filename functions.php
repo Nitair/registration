@@ -22,6 +22,7 @@ class TrinityInstaller
         fwrite($installer, 'Install-Process locked successfully @ ');
         fwrite($installer, date('Y-m-d H:i:s'));
         fclose($installer);
+        return;
     }
 }
 
@@ -29,14 +30,11 @@ class TrinityHandler
 {
     function GetDomainName($GetPlainOrHTTP)
     {
-        if ($GetPlainOrHTTP == false)
-        {
-            $domain = 'localhost';
+        if ($GetPlainOrHTTP == false) {
+            return 'localhost';
         }
-        
-        $domain = 'http://localhost/registration';
 
-        return $domain;
+        return 'http://localhost/registration';
     }
 
     function BuildConnection($debug)
@@ -49,12 +47,11 @@ class TrinityHandler
         $dbpass = 'trinity';
 
         if ($debug == true) {
-            $logon = @new PDO("mysql:host=$dbhost;dbname=$dbname;port=$dbport", $dbuser, $dbpass, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-        } else {
-            $logon = @new PDO("mysql:host=$dbhost;dbname=$dbname;port=$dbport", $dbuser, $dbpass);
+            return @new PDO("mysql:host=$dbhost;dbname=$dbname;port=$dbport", $dbuser, $dbpass, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
         }
-
-        return $logon;
+   
+        return @new PDO("mysql:host=$dbhost;dbname=$dbname;port=$dbport", $dbuser, $dbpass);
+        
     }
 
     function CheckUsername($username)
@@ -172,15 +169,14 @@ class TrinityHandler
             )
         );
 
-        if ($result == true) {
-            echo "Report: Registration was done successfully.";
-        }
-        else
-        {
+        if ($result == false) {
             echo "Report: Something went wrong.";
+            return;
         }
 
+        echo "Report: Registration was done successfully.";
         $pdo = null;
+        return;
     }
 }
 ?>
