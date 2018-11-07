@@ -5,7 +5,11 @@ if (count(get_included_files()) == 1) {
     die();
 }
 
-$user_agent = $_SERVER['HTTP_USER_AGENT'];
+// Define super-globals outside of functions
+$user_agent             = $_SERVER['HTTP_USER_AGENT'];
+$http_client_ip         = $_SERVER['HTTP_CLIENT_IP'];
+$http_x_forwarded_for   = $_SERVER['HTTP_X_FORWARDED_FOR'];
+$remote_addr            = $_SERVER['REMOTE_ADDR'];
 
 function StartInstaller()
 {
@@ -130,6 +134,8 @@ function GetOperationSystem()
 
 function DoRegister($username, $password, $mail)
 {
+    global $http_client_ip, $http_x_forwarded_for, $remote_addr;
+
     // Convert plain password to salted sha1 hash
     $password_hash  = sha1($username . ':' . $password);
 
@@ -137,7 +143,7 @@ function DoRegister($username, $password, $mail)
     $current_os     = GetOperationSystem();
     $current_time   = date('Y-m-d H:i:s');
     $pdo            = BuildConnection(false);
-    $current_ip     = isset($_SERVER['HTTP_CLIENT_IP'])?$_SERVER['HTTP_CLIENT_IP']:isset($_SERVER['HTTP_X_FORWARDED_FOR'])?$_SERVER['HTTP_X_FORWARDED_FOR']:$_SERVER['REMOTE_ADDR'];
+    $current_ip     = isset($http_client_ip) ? $http_client_ip : isset($http_x_forwarded_for) ? $http_x_forwarded_for : $remote_addr;
     $statement = $pdo->prepare(
         "INSERT INTO `account` (`username`, `sha_pass_hash`, `v`, `s`, `reg_mail`, `email`, `last_ip`, `last_attempt_ip`, `last_login`, `os`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
     );
