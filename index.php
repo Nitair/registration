@@ -6,8 +6,11 @@ include_once 'functions.php';
 // Show all fields
 $ShowFormular = true;
 
-// register form handling
-if (isset($_GET['register'], $_POST['register'])) 
+// Sanitize $_GET['register']
+$register = filter_input(INPUT_GET, 'register', FILTER_SANITIZE_SPECIAL_CHARS);
+
+// Register form handling
+if (isset($register)) 
 {
     $error          = false;
     $error_message  = '';
