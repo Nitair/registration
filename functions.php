@@ -36,13 +36,11 @@ function GetDomainName($GetPlainOrHTTP)
     if ($GetPlainOrHTTP == false) {
         return 'localhost';
     }
-
     return 'http://localhost/registration';
 }
 
 function BuildConnection($debug)
 {
-
     $dbname = 'auth';
     $dbhost = 'localhost';
     $dbport = '3306';
@@ -52,9 +50,7 @@ function BuildConnection($debug)
     if ($debug == true) {
         return @new PDO("mysql:host=$dbhost;dbname=$dbname;port=$dbport", $dbuser, $dbpass, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
     }
-
     return @new PDO("mysql:host=$dbhost;dbname=$dbname;port=$dbport", $dbuser, $dbpass);
-    
 }
 
 function CheckUsername($username)
@@ -67,7 +63,6 @@ function CheckUsername($username)
             $username
         )
     );
-
     $result = $statement->fetchColumn();
     return $result ? true : false;
 }
@@ -75,7 +70,6 @@ function CheckUsername($username)
 function CheckOnlineStatus()
 {
     $success = false;
-
     try
     {
         $pdo = BuildConnection(true);
@@ -85,7 +79,6 @@ function CheckOnlineStatus()
     {
         $success = false;
     }
-
     $pdo = null;
     return $success; 
 }
@@ -102,9 +95,7 @@ function CheckPortStatus()
 function GetOperationSystem() 
 {
     global $user_agent;
-
     $os_platform    =   "Unknown OS Platform";
-
     $os_array       =   array(
                             '/windows nt 10.0/i'    =>  'Windows 10',
                             '/windows nt 6.2/i'     =>  'Windows 8',
@@ -129,15 +120,11 @@ function GetOperationSystem()
                             '/blackberry/i'         =>  'BlackBerry',
                             '/webos/i'              =>  'Mobile'
                         );
-
     foreach ($os_array as $regex => $value) { 
-
         if (preg_match($regex, $user_agent)) {
             $os_platform    =   $value;
         }
-
     }   
-
     return $os_platform;
 }
 
@@ -150,12 +137,10 @@ function DoRegister($username, $password, $mail)
     $current_os     = GetOperationSystem();
     $current_time   = date('Y-m-d H:i:s');
     $pdo            = BuildConnection(false);
-    $current_ip     = $_SERVER['HTTP_CLIENT_IP']?$_SERVER['HTTP_CLIENT_IP']:($_SERVER['HTTP_X_FORWARDE‌​D_FOR']?$_SERVER['HTTP_X_FORWARDED_FOR']:$_SERVER['REMOTE_ADDR']);
-
+    $current_ip     = isset($_SERVER['HTTP_CLIENT_IP'])?$_SERVER['HTTP_CLIENT_IP']:isset($_SERVER['HTTP_X_FORWARDED_FOR'])?$_SERVER['HTTP_X_FORWARDED_FOR']:$_SERVER['REMOTE_ADDR'];
     $statement = $pdo->prepare(
         "INSERT INTO `account` (`username`, `sha_pass_hash`, `v`, `s`, `reg_mail`, `email`, `last_ip`, `last_attempt_ip`, `last_login`, `os`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
     );
-
     $result = $statement->execute(
         array(
             $username,
@@ -170,12 +155,10 @@ function DoRegister($username, $password, $mail)
             $current_os
         )
     );
-
     if ($result == false) {
         echo "Report: Something went wrong.";
         return;
     }
-
     echo "Report: Registration was done successfully.";
     $pdo = null;
     return;
