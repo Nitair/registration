@@ -7,12 +7,12 @@ if (count(get_included_files()) == 1) {
 
 include_once 'functions.php';
 
-if ((file_exists('.installed') == false) && (TrinityHandler::CheckOnlineStatus() == true))
+if ((file_exists('.installed') == false) && (CheckOnlineStatus() == true))
 {
-    TrinityInstaller::StartInstaller();
+    StartInstaller();
 }
 
-$domain = TrinityHandler::GetDomainName(true);
+$domain = GetDomainName(true);
 
 echo '<html>
 <header>
