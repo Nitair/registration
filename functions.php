@@ -5,11 +5,12 @@ if (count(get_included_files()) == 1) {
     die();
 }
 
-// Define super-globals outside of functions
-$user_agent             = $_SERVER['HTTP_USER_AGENT'];
-$http_client_ip         = $_SERVER['HTTP_CLIENT_IP'];
-$http_x_forwarded_for   = $_SERVER['HTTP_X_FORWARDED_FOR'];
-$remote_addr            = $_SERVER['REMOTE_ADDR'];
+// Define super-globals outside of functions!
+//! Does output undefined index on localhost
+$user_agent             = @$_SERVER['HTTP_USER_AGENT'];
+$http_client_ip         = @$_SERVER['HTTP_CLIENT_IP'];
+$http_x_forwarded_for   = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+$remote_addr            = @$_SERVER['REMOTE_ADDR'];
 
 function StartInstaller()
 {

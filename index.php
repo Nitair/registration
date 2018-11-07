@@ -19,31 +19,36 @@ if (isset($register))
     $password2      = filter_var($_POST['password2'], FILTER_SANITIZE_STRING);
     $mail           = filter_var($_POST['mail'], FILTER_SANITIZE_STRING);
 
-    if ((strlen($username) < 3) || !(ctype_alpha($username)))
+    if ((strlen($username) < 3))
     {
-        $error_message = 'Report: The username has too few characters or the username isnt alphanumeric';
+        $error_message = "The username has too few characters!";
+        $error = true;
+    }
+    else if(!(ctype_alpha($username)))
+    {
+        $error_message = "The username isn'\nt alphanumeric!";
         $error = true;
     }
     else if (strlen($password1) < 5)
     {
-        $error_message = 'Report: The password has too few characters';
+        $error_message = "The password has too few characters!";
         $error = true;
     }
     else if ($password1 != $password2)
     {
-        $error_message = 'Report: The passwords doesnt matches';
+        $error_message = "The passwords doesn'\nt match!";
         $error = true;
     }
     else if (!filter_var($mail, FILTER_VALIDATE_EMAIL))
     {
-        $error_message = 'Report: The mail address isnt valid';
+        $error_message = "The mail address isn'\nt valid!";
         $error = true;
     }
     else if (CheckOnlineStatus(false) == true)
     {
         if (CheckUsername($username))
         {
-            $error_message = 'Report: The username already exist';
+            $error_message = "The username already exist!";
             $error = true;
         }
     
@@ -67,9 +72,8 @@ if (($ShowFormular == true) && (file_exists('.installed') == true))
         <hr>';
         if (isset($error_message))
         {
-            echo '<br>';
-            echo '<blockquote style="color: red; font-weight: bold;"> ! ! ! ', filter_var($error_message, FILTER_SANITIZE_STRING), ' ! ! !</blockquote>';
-            echo '<br>';
+            echo '<i class="fa fa-exclamation-triangle fa-5x" aria-hidden="true" style="color:red;"></i><br><br><span style="color: red; font-weight: bold;">', 
+            filter_var($error_message, FILTER_SANITIZE_STRING), '</span><br><br>';
         }
         echo '<form class="form-horizontal" action="?register=1" method="post">
             <div class="form-group">
@@ -94,7 +98,7 @@ if (($ShowFormular == true) && (file_exists('.installed') == true))
             </div>
             <hr>
             <div class="col-auto" style="text-align: center;">';
-            if (CheckOnlineStatus())
+            if (!CheckOnlineStatus())
             {
                 echo '<button type="submit" class="btn btn-primary">Register</button>';
             }
