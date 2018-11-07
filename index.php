@@ -14,10 +14,10 @@ if (isset($register))
 {
     $error          = false;
     $error_message  = '';
-    $username       = filter_input($_POST['username'], FILTER_SANITIZE_STRING);
-    $password1      = filter_input($_POST['password1'], FILTER_SANITIZE_STRING);
-    $password2      = filter_input($_POST['password2'], FILTER_SANITIZE_STRING);
-    $mail           = filter_input($_POST['mail'], FILTER_SANITIZE_STRING);
+    $username       = filter_input(INPUT_POST, $_POST['username'], FILTER_SANITIZE_STRING);
+    $password1      = filter_input(INPUT_POST, $_POST['password1'], FILTER_SANITIZE_STRING);
+    $password2      = filter_input(INPUT_POST, $_POST['password2'], FILTER_SANITIZE_STRING);
+    $mail           = filter_input(INPUT_POST, $_POST['mail'], FILTER_SANITIZE_STRING);
 
     if (strlen($username) < 3 || ctype_alpha($username))
     {
@@ -68,7 +68,7 @@ if (($ShowFormular == true) && (file_exists('.installed') == true))
         if (isset($error_message))
         {
             echo '<br>';
-            echo '<blockquote style="color: red; font-weight: bold;"> ! ! ! ', filter_input($error_message, FILTER_SANITIZE_STRING), ' ! ! !</blockquote>';
+            echo '<blockquote style="color: red; font-weight: bold;"> ! ! ! ', filter_var($error_message, FILTER_SANITIZE_STRING), ' ! ! !</blockquote>';
             echo '<br>';
         }
         echo '<form class="form-horizontal" action="?register=1" method="post">
