@@ -7,14 +7,14 @@ include_once 'functions.php';
 $ShowFormular = true;
 
 // register form handling
-if (isset($_GET['register'])) 
+if (isset($_GET['register'], $_POST['register'])) 
 {
     $error          = false;
     $error_message  = '';
-    $username       = ClearInput($_POST['username']);
-    $password1      = ClearInput($_POST['password1']);
-    $password2      = ClearInput($_POST['password2']);
-    $mail           = ClearInput($_POST['mail']);
+    $username       = filter_input($_POST['username'], FILTER_SANITIZE_STRING);
+    $password1      = filter_var($_POST['password1'], FILTER_SANITIZE_STRING);
+    $password2      = filter_var($_POST['password2'], FILTER_SANITIZE_STRING);
+    $mail           = filter_var($_POST['mail'], FILTER_SANITIZE_STRING);
 
     if (strlen($username) < 3 || ctype_alpha($username))
     {
