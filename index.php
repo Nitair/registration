@@ -12,9 +12,9 @@ if (isset($_GET['register'], $_POST['register']))
     $error          = false;
     $error_message  = '';
     $username       = filter_input($_POST['username'], FILTER_SANITIZE_STRING);
-    $password1      = filter_var($_POST['password1'], FILTER_SANITIZE_STRING);
-    $password2      = filter_var($_POST['password2'], FILTER_SANITIZE_STRING);
-    $mail           = filter_var($_POST['mail'], FILTER_SANITIZE_STRING);
+    $password1      = filter_input($_POST['password1'], FILTER_SANITIZE_STRING);
+    $password2      = filter_input($_POST['password2'], FILTER_SANITIZE_STRING);
+    $mail           = filter_input($_POST['mail'], FILTER_SANITIZE_STRING);
 
     if (strlen($username) < 3 || ctype_alpha($username))
     {
