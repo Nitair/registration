@@ -78,25 +78,25 @@ if (($ShowFormular == true) && (file_exists('.installed') == true))
         echo '<form class="form-horizontal" action="?register=1" method="post">
             <div class="form-group">
             <div class="input-group mb-2 mb-sm-0">
-                <i class="fa fa-user-o fa-2x" aria-hidden="true" style="height: 40; width: 40; padding: 5px; background: #FFF; color: #000;"></i>
+                <i class="far fa-user fa-2x" style="height: 40; width: 40; padding: 5px; background: #FFF; color: #000;"></i>
                 <input type="username" class="form-control" id="username" placeholder="Enter an account name" name="username">
             </div>
             </div>
             <div class="form-group">
             <div class="input-group mb-2 mb-sm-0">
-                <i class="fa fa-envelope-o fa-2x" aria-hidden="true" style="height: 40; width: 40; padding: 5px; background: #FFF; color: #000;"></i>
+                <i class="far fa-envelope fa-2x" style="height: 40; width: 40; padding: 5px; background: #FFF; color: #000;"></i>
                 <input type="email" class="form-control" id="mail" placeholder="Enter an email address" name="mail">
             </div>
             </div>
             <div class="form-group">
             <div class="input-group mb-2 mb-sm-0">
-                <i class="fa fa-unlock fa-2x" aria-hidden="true" style="height: 40; width: 40; padding: 5px; background: #FFF; color: #000;"></i>
+                <i class="fas fa-key fa-2x" style="height: 40; width: 40; padding: 5px; background: #FFF; color: #000;"></i>
                 <input type="password" class="form-control" id="password1" placeholder="Enter your password" name="password1">
             </div>
             </div>
             <div class="form-group">
             <div class="input-group mb-2 mb-sm-0">
-                <i class="fa fa-unlock fa-2x" aria-hidden="true" style="height: 40; width: 40; padding: 5px; background: #FFF; color: #000;"></i>
+                <i class="fas fa-key fa-2x" style="height: 40; width: 40; padding: 5px; background: #FFF; color: #000;"></i>
                 <input type="password" class="form-control" id="password2" placeholder="Re-enter your password" name="password2">
             </div>
             </div>
@@ -109,9 +109,7 @@ if (($ShowFormular == true) && (file_exists('.installed') == true))
             else
             {
                 echo '<a class="btn btn-danger disabled" href="#" role="button">
-                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 
-                                Registration offline 
-                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 
+                        <i class="fas fa-skull-crossbones"></i>
                      </a>';
             }
             echo '
@@ -125,6 +123,7 @@ if (($ShowFormular == true) && (file_exists('.installed') == true))
 }
 else
 {
+    //! Todo: Re-designing
     echo '<br><br><br>
     <div class="container">
         <div class="row">
