@@ -12,19 +12,42 @@ $http_client_ip         = @$_SERVER['HTTP_CLIENT_IP'];
 $http_x_forwarded_for   = @$_SERVER['HTTP_X_FORWARDED_FOR'];
 $remote_addr            = @$_SERVER['REMOTE_ADDR'];
 
-function StartInstaller()
+function ExecuteInstallerSQL()
 {
     // Execute needed update for OS detection
     $pdo = BuildConnection(false);
     $statement = $pdo->prepare('ALTER TABLE account ALTER COLUMN os VARCHAR(55)');
-    $statement->execute();
+    $result = $statement->execute();
     $pdo = null;
+    return $result ? true : false;
+}
+
+function HTMLError($arg)
+{
+    echo '<i class="fa fa-exclamation-triangle fa-5x" aria-hidden="true" style="color:red;"></i>
+    <br><br>
+    <span style="color: red; font-weight: bold;">', filter_var($arg, FILTER_SANITIZE_STRING), '</span>
+    <br><br>';
+}
+
+function StartInstaller()
+{
+    $error = false;
+
+    if (ExecuteInstallerSQL() === false)
+    {
+        HTMLError("The needed SQL query had issues to be executed. Please check your database structure.");
+        $error = true;
+    } 
 
     // Should run at the end
-    $installer = fopen(".installed", "w");
-    fwrite($installer, 'Install-Process locked successfully @ ');
-    fwrite($installer, date('Y-m-d H:i:s'));
-    fclose($installer);
+    if ($error == false)
+    {
+        $installer = fopen(".installed", "w");
+        fwrite($installer, 'Install-Process locked successfully @ ');
+        fwrite($installer, date('Y-m-d H:i:s'));
+        fclose($installer);
+    }
     return;
 }
 

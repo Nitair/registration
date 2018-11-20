@@ -9,6 +9,9 @@ $ShowFormular = true;
 // Sanitize $_GET['register']
 $register = filter_input(INPUT_GET, 'register', FILTER_SANITIZE_SPECIAL_CHARS);
 
+// error message installer
+$installer_error = "Installer wasn'\nt able to execute needed queries (Please check the database connection)!";
+
 // Register form handling
 if (isset($register)) 
 {
@@ -72,8 +75,7 @@ if (($ShowFormular == true) && (file_exists('.installed') == true))
         <hr>';
         if (isset($error_message))
         {
-            echo '<i class="fa fa-exclamation-triangle fa-5x" aria-hidden="true" style="color:red;"></i><br><br><span style="color: red; font-weight: bold;">', 
-            filter_var($error_message, FILTER_SANITIZE_STRING), '</span><br><br>';
+            HTMLError(filter_var($error_message, FILTER_SANITIZE_STRING));
         }
         echo '<form class="form-horizontal" action="?register=1" method="post">
             <div class="form-group">
@@ -129,8 +131,8 @@ else
         <div class="row">
             <div class="col-sm-3" style="text-align:center;">
             </div>
-            <div class="col-sm-6" style="text-align:center;">
-                <blockquote style="color: red; font-weight: bold;"> ! ! ! Installer was not able to run (Please check the database connection) ! ! !</blockquote>
+            <div class="col-sm-6" style="text-align:center;">', 
+                HTMLError(filter_var($installer_error, FILTER_SANITIZE_STRING)); '
             </div>
             <div class="col-sm-3" style="text-align:center;">
             </div>
