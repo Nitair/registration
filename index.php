@@ -9,9 +9,6 @@ $ShowFormular = true;
 // Sanitize $_GET['register']
 $register = filter_input(INPUT_GET, 'register', FILTER_SANITIZE_SPECIAL_CHARS);
 
-// error message installer
-$installer_error = "Installer wasn'\nt able to execute needed queries (Please check the database connection)!";
-
 // Register form handling
 if (isset($register)) 
 {
@@ -65,19 +62,24 @@ if (isset($register))
 // show register form
 if (($ShowFormular == true) && (file_exists('.installed') == true))
 {
-    echo '<br><br><br>
+    echo '
+    <br>
+    <br>
+    <br>
     <div class="container">
     <div class="row">    
         <div class="col-sm-3" style="text-align:center;">
         </div>
         <div class="col-sm-6" style="text-align:center;">
         <h2>Create an ingame account</h2>
-        <hr>';
+        <hr>
+        ';
         if (isset($error_message))
         {
             HTMLError(filter_var($error_message, FILTER_SANITIZE_STRING));
         }
-        echo '<form class="form-horizontal" action="?register=1" method="post">
+        echo '
+        <form class="form-horizontal" action="?register=1" method="post">
             <div class="form-group">
             <div class="input-group mb-2 mb-sm-0">
                 <i class="far fa-user fa-2x" style="height: 40; width: 40; padding: 5px; background: #FFF; color: #000;"></i>
@@ -103,7 +105,8 @@ if (($ShowFormular == true) && (file_exists('.installed') == true))
             </div>
             </div>
             <hr>
-            <div class="col-auto" style="text-align: center;">';
+            <div class="col-auto" style="text-align: center;">
+            ';
             if (CheckOnlineStatus())
             {
                 echo '<button type="submit" class="btn btn-primary">Register</button>';
@@ -114,30 +117,34 @@ if (($ShowFormular == true) && (file_exists('.installed') == true))
                         <i class="fas fa-skull-crossbones"></i>
                      </a>';
             }
-            echo '
-            </div>
+            echo 
+            '</div>
         </form>
         </div>
         <div class="col-sm-3" style="text-align:center;">
         </div>
     </div>
-    </div>';
+    </div>
+    ';
 }
 else
 {
-    //! Todo: Re-designing
-    echo '<br><br><br>
+    echo '
+    <br>
+    <br>
+    <br>
     <div class="container">
         <div class="row">
             <div class="col-sm-3" style="text-align:center;">
             </div>
-            <div class="col-sm-6" style="text-align:center;">', 
-                HTMLError(filter_var($installer_error, FILTER_SANITIZE_STRING)); '
-            </div>
+            <div class="col-sm-6" style="text-align:center;">'
+            , HTMLError(filter_var("Installer wasn'\nt able to execute needed queries (Please check the database connection)!", FILTER_SANITIZE_STRING)); 
+            '</div>
             <div class="col-sm-3" style="text-align:center;">
             </div>
         </div>
-    </div>';
+    </div>
+    ';
 }
 
 include_once 'footer.php';
