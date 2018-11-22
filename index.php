@@ -114,7 +114,7 @@ if (($ShowFormular == true) && (file_exists('.installed') == true))
             else
             {
                 echo '<a class="btn btn-danger disabled" href="#" role="button">
-                        <i class="fas fa-skull-crossbones"></i>
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Database Connection Error
                      </a>';
             }
             echo 

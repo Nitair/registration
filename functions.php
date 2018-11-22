@@ -19,7 +19,7 @@ function ExecuteInstallerSQL()
     $statement = $pdo->prepare('ALTER TABLE account ALTER COLUMN os VARCHAR(55)');
     $result = $statement->execute();
     $pdo = null;
-    return $result ? true : false;
+    return $result ? false : true;
 }
 
 function HTMLError($arg)
@@ -34,19 +34,22 @@ function StartInstaller()
 {
     $error = false;
 
-    if (ExecuteInstallerSQL() === false)
+    if (file_exists(".installed") == false)
     {
-        HTMLError("The needed SQL query had issues to be executed. Please check your database structure.");
-        $error = true;
-    } 
-
-    // Should run at the end
-    if ($error == false)
-    {
-        $installer = fopen(".installed", "w");
-        fwrite($installer, 'Install-Process locked successfully @ ');
-        fwrite($installer, date('Y-m-d H:i:s'));
-        fclose($installer);
+        if (ExecuteInstallerSQL() === false)
+        {
+            HTMLError("The needed SQL query had issues to be executed. Please check your database structure.");
+            $error = true;
+        } 
+    
+        // Should run at the end
+        if ($error == false)
+        {
+            $installer = fopen(".installed", "w");
+            fwrite($installer, 'Install-Process locked successfully @ ');
+            fwrite($installer, date('Y-m-d H:i:s'));
+            fclose($installer);
+        }
     }
     return;
 }
@@ -109,15 +112,6 @@ function CheckOnlineStatus()
     }
     $pdo = null;
     return $success; 
-}
-
-function CheckPortStatus()
-{
-    $port = '3724';
-    $host = 'sunrage-network.com';
-    return is_resource(@fsockopen($host, $port)) 
-        ? '<span class="badge badge-success">Auth-Port does listen</span>' 
-        : '<span class="badge badge-danger">Auth-Port does not listen</span>'; 
 }
 
 function GetOperationSystem() 
