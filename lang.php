@@ -1,8 +1,11 @@
 <?php
 
+$http_accept_language = $_SERVER['HTTP_ACCEPT_LANGUAGE'];
+
 function GetLang()
 {
-    $lang = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+    global $http_accept_language;
+    $lang = substr($http_accept_language, 0, 2);
     $acceptLang = ['en', 'de']; 
     $lang = in_array($lang, $acceptLang) ? $lang : 'en';
     return $lang;
