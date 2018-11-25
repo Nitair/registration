@@ -1,7 +1,9 @@
 <?php
 
-if (count(get_included_files()) == 1) {
-    exit("Direct access denied.");
+include_once 'lang.php';
+
+if (strpos($_SERVER['REQUEST_URI'], basename(__FILE__)) !== false) {
+    exit($lang[GetLang()]['ERR_DIRECT_ACCESS']);
     die();
 }
 
@@ -11,6 +13,14 @@ $user_agent             = @$_SERVER['HTTP_USER_AGENT'];
 $http_client_ip         = @$_SERVER['HTTP_CLIENT_IP'];
 $http_x_forwarded_for   = @$_SERVER['HTTP_X_FORWARDED_FOR'];
 $remote_addr            = @$_SERVER['REMOTE_ADDR'];
+
+function HTMLError($arg)
+{
+    echo '<i class="fa fa-exclamation-triangle fa-5x" aria-hidden="true" style="color:red;"></i>
+    <br><br>
+    <span style="color: red; font-weight: bold;">', filter_var($arg, FILTER_SANITIZE_STRING), '</span>
+    <br><br>';
+}
 
 function ExecuteInstallerSQL()
 {
@@ -22,14 +32,6 @@ function ExecuteInstallerSQL()
     return $result ? false : true;
 }
 
-function HTMLError($arg)
-{
-    echo '<i class="fa fa-exclamation-triangle fa-5x" aria-hidden="true" style="color:red;"></i>
-    <br><br>
-    <span style="color: red; font-weight: bold;">', filter_var($arg, FILTER_SANITIZE_STRING), '</span>
-    <br><br>';
-}
-
 function StartInstaller()
 {
     $error = false;
@@ -38,27 +40,33 @@ function StartInstaller()
     {
         if (ExecuteInstallerSQL() === false)
         {
-            HTMLError("The needed SQL query had issues to be executed. Please check your database structure.");
+            HTMLError($lang[GetLang()]['ERR_INSTALLER_QUERY']);
             $error = true;
         } 
-    
+        
         // Should run at the end
         if ($error == false)
         {
             $installer = fopen(".installed", "w");
-            fwrite($installer, 'Install-Process locked successfully @ ');
-            fwrite($installer, date('Y-m-d H:i:s'));
+            fwrite($installer, date('Y-m-d H:i:s'), ': ', $lang[GetLang()]['SUCCESS_INSTALLER_SQL']);
+            fwrite($installer, date('Y-m-d H:i:s'), ': ', $lang[GetLang()]['SUCCESS_INSTALLER_MSG']);
             fclose($installer);
         }
     }
     return;
 }
 
+/// @Todo - Creating Log function which outputs everything into a logfile
+// function DebugLog
+// {
+
+// }
+
 function ClearInput($data)
 {
     $data = trim($data);
     $data = stripslashes($data);
-    $$data = htmlspecialchars($data);
+    $data = htmlspecialchars($data);
     return $data;
 }
 

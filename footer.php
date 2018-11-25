@@ -1,7 +1,9 @@
 <?php
 
-if (count(get_included_files()) == 1) {
-    exit("Direct access denied.");
+include_once 'lang.php';
+
+if (strpos($_SERVER['REQUEST_URI'], basename(__FILE__)) !== false) {
+    exit($lang[GetLang()]['ERR_DIRECT_ACCESS']);
     die();
 }
 

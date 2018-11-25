@@ -1,6 +1,7 @@
 <?php
 
 include_once 'header.php';
+include_once 'lang.php';
 
 echo 
 '
@@ -11,7 +12,7 @@ echo
         <div class="row">
             <div class="col-sm-3" style="text-align:center;">
             </div>
-            <div class="col-sm-6" style="text-align:center;">'
+            <div class="col-sm-6" style="text-align:center;">';
             , 
             '</div>
             <div class="col-sm-3" style="text-align:center;">

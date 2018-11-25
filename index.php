@@ -1,7 +1,15 @@
 <?php
 
+include_once 'lang.php';
+
+if (strpos($_SERVER['REQUEST_URI'], basename(__FILE__)) !== false) {
+    exit($lang[GetLang()]['ERR_DIRECT_ACCESS']);
+    die();
+}
+
 include_once 'header.php';
 include_once 'functions.php';
+
 
 // Show all fields
 $ShowFormular = true;
@@ -19,36 +27,36 @@ if (isset($register))
     $password2      = filter_var($_POST['password2'], FILTER_SANITIZE_STRING);
     $mail           = filter_var($_POST['mail'], FILTER_SANITIZE_STRING);
 
-    if ((strlen($username) < 3))
+    if ((strlen($username) < 6))
     {
-        $error_message = "The username has too few characters!";
+        $error_message = $lang[GetLang()]['ERR_USER_SHORT_CHARS'];
         $error = true;
     }
     else if(!(ctype_alpha($username)))
     {
-        $error_message = "The username isn'\nt alphanumeric!";
+        $error_message = $lang[GetLang()]['ERR_USER_ALPHA_NUM'];
         $error = true;
     }
     else if (strlen($password1) < 5)
     {
-        $error_message = "The password has too few characters!";
+        $error_message = $lang[GetLang()]['ERR_PASS_SHORT_CHARS'];
         $error = true;
     }
     else if ($password1 != $password2)
     {
-        $error_message = "The passwords doesn'\nt match!";
+        $error_message = $lang[GetLang()]['ERR_PASS_NOT_MATCH'];
         $error = true;
     }
-    else if (!filter_var($mail, FILTER_VALIDATE_EMAIL))
+    else if (!filter_var($mail, FILTER_VALIDATE_EMAIL) || is_empty($mail))
     {
-        $error_message = "The mail address isn'\nt valid!";
+        $error_message = $lang[GetLang()]['ERR_MAIL_NOT_VALID'];
         $error = true;
     }
     else if (CheckOnlineStatus(false) == true)
     {
         if (CheckUsername($username))
         {
-            $error_message = "The username already exist!";
+            $error_message = $lang[GetLang()]['ERR_USER_ALREADY_EXIST'];
             $error = true;
         }
     
@@ -71,7 +79,7 @@ if (($ShowFormular == true) && (file_exists('.installed') == true))
         <div class="col-sm-3" style="text-align:center;">
         </div>
         <div class="col-sm-6" style="text-align:center;">
-        <h2>Create an ingame account</h2>
+        <h2>'; echo $lang[GetLang()]['FORM_USERNAME_TEXT'],'</h2>
         <hr>
         ';
         if (isset($error_message))
@@ -83,25 +91,25 @@ if (($ShowFormular == true) && (file_exists('.installed') == true))
             <div class="form-group">
             <div class="input-group mb-2 mb-sm-0">
                 <i class="far fa-user fa-2x" style="height: 40; width: 40; padding: 5px; background: #FFF; color: #000;"></i>
-                <input type="username" class="form-control" id="username" placeholder="Enter an account name" name="username">
+                <input type="username" class="form-control" id="username" placeholder="'; echo $lang[GetLang()]['FORM_USERNAME_TEXT'],'" name="username">
             </div>
             </div>
             <div class="form-group">
             <div class="input-group mb-2 mb-sm-0">
                 <i class="far fa-envelope fa-2x" style="height: 40; width: 40; padding: 5px; background: #FFF; color: #000;"></i>
-                <input type="email" class="form-control" id="mail" placeholder="Enter an email address" name="mail">
+                <input type="email" class="form-control" id="mail" placeholder="'; echo $lang[GetLang()]['FORM_EMAIL_TEXT'],'" name="mail">
             </div>
             </div>
             <div class="form-group">
             <div class="input-group mb-2 mb-sm-0">
                 <i class="fas fa-key fa-2x" style="height: 40; width: 40; padding: 5px; background: #FFF; color: #000;"></i>
-                <input type="password" class="form-control" id="password1" placeholder="Enter your password" name="password1">
+                <input type="password" class="form-control" id="password1" placeholder="'; echo $lang[GetLang()]['FORM_PASSWORD_TEXT'],'" name="password1">
             </div>
             </div>
             <div class="form-group">
             <div class="input-group mb-2 mb-sm-0">
                 <i class="fas fa-key fa-2x" style="height: 40; width: 40; padding: 5px; background: #FFF; color: #000;"></i>
-                <input type="password" class="form-control" id="password2" placeholder="Re-enter your password" name="password2">
+                <input type="password" class="form-control" id="password2" placeholder="'; echo $lang[GetLang()]['FORM_REPASSWORD_TEXT'],'" name="password2">
             </div>
             </div>
             <hr>
@@ -109,12 +117,12 @@ if (($ShowFormular == true) && (file_exists('.installed') == true))
             ';
             if (CheckOnlineStatus())
             {
-                echo '<button type="submit" class="btn btn-primary">Register</button>';
+                echo '<button type="submit" class="btn btn-primary">'; echo $lang[GetLang()]['SUBMIT_BUTTON_SUCCESS'] ,'</button>';
             }
             else
             {
                 echo '<a class="btn btn-danger disabled" href="#" role="button">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Database Connection Error
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> '; echo $lang[GetLang()]['SUBMIT_BUTTON_ERROR'] ,'
                      </a>';
             }
             echo 
@@ -138,7 +146,7 @@ else
             <div class="col-sm-3" style="text-align:center;">
             </div>
             <div class="col-sm-6" style="text-align:center;">'
-            , HTMLError(filter_var("Installer wasn'\nt able to execute needed queries (Please check the database connection)!", FILTER_SANITIZE_STRING)); 
+            , HTMLError(filter_var($lang[GetLang()]['ERR_INSTALLER_QUERY'], FILTER_SANITIZE_STRING)); 
             '</div>
             <div class="col-sm-3" style="text-align:center;">
             </div>
