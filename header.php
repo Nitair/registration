@@ -16,12 +16,14 @@ if ((file_exists('.installed') == false) && (CheckOnlineStatus() == true))
 
 $domain = GetDomainName(true);
 
-echo '<html>
+echo '
+<html>
 <header>
+<link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
 <!-- Self-hosted stuff -->
 <link rel="stylesheet" href="'; echo filter_var($domain, FILTER_SANITIZE_STRING) , '/style/custom.css">
-<link rel="stylesheet" href="'; echo filter_var($domain, FILTER_SANITIZE_STRING) , '/style/animate.css">
-<link rel="stylesheet" href="'; echo filter_var($domain, FILTER_SANITIZE_STRING) , '/style/background.css">
+<!--<link rel="stylesheet" href="'; echo filter_var($domain, FILTER_SANITIZE_STRING) , '/style/animate.css">-->
+<!--<link rel="stylesheet" href="'; echo filter_var($domain, FILTER_SANITIZE_STRING) , '/style/background.css">-->
 
 <!-- External-hosted stuff -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -31,24 +33,5 @@ echo '<html>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.1.0/css/flag-icon.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" />
-<script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
-<script>
-window.addEventListener("load", function(){
-window.cookieconsent.initialise({
-  "palette": {
-    "popup": {
-      "background": "#3c404d",
-      "text": "#d6d6d6"
-    },
-    "button": {
-      "background": "#8bed4f"
-    }
-  },
-  "theme": "edgeless"
-  "content": {
-    "href": "'; echo filter_var($domain, FILTER_SANITIZE_STRING) , '/privacy.php"
-})});
-</script>
-</header>
-<body>';
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+';

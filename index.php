@@ -90,25 +90,25 @@ if (($ShowFormular == true) && (file_exists('.installed') == true))
         <form class="form-horizontal" action="?register=1" method="post">
             <div class="form-group">
             <div class="input-group mb-2 mb-sm-0">
-                <i class="far fa-user fa-2x" style="height: 40; width: 40; padding: 5px; background: #FFF; color: #000;"></i>
+                <i class="material-icons md-36" style="width: 40; background: #FFF; color: #000;">person</i>
                 <input type="username" class="form-control" id="username" placeholder="'; echo $lang[GetLang()]['FORM_USERNAME_TEXT'],'" name="username">
             </div>
             </div>
             <div class="form-group">
             <div class="input-group mb-2 mb-sm-0">
-                <i class="far fa-envelope fa-2x" style="height: 40; width: 40; padding: 5px; background: #FFF; color: #000;"></i>
+                <i class="material-icons md-36" style="width: 40; background: #FFF; color: #000;">email</i>
                 <input type="email" class="form-control" id="mail" placeholder="'; echo $lang[GetLang()]['FORM_EMAIL_TEXT'],'" name="mail">
             </div>
             </div>
             <div class="form-group">
             <div class="input-group mb-2 mb-sm-0">
-                <i class="fas fa-key fa-2x" style="height: 40; width: 40; padding: 5px; background: #FFF; color: #000;"></i>
+                <i class="material-icons md-36" style="width: 40; background: #FFF; color: #000;">vpn_key</i>
                 <input type="password" class="form-control" id="password1" placeholder="'; echo $lang[GetLang()]['FORM_PASSWORD_TEXT'],'" name="password1">
             </div>
             </div>
             <div class="form-group">
             <div class="input-group mb-2 mb-sm-0">
-                <i class="fas fa-key fa-2x" style="height: 40; width: 40; padding: 5px; background: #FFF; color: #000;"></i>
+                <i class="material-icons md-36" style="width: 40; background: #FFF; color: #000;">vpn_key</i>
                 <input type="password" class="form-control" id="password2" placeholder="'; echo $lang[GetLang()]['FORM_REPASSWORD_TEXT'],'" name="password2">
             </div>
             </div>
