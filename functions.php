@@ -9,10 +9,10 @@ if (strpos($_SERVER['REQUEST_URI'], basename(__FILE__)) !== false) {
 
 // Define super-globals outside of functions!
 //! Does output undefined index on localhost
-$user_agent             = @filter_input(INPUT_SERVER, 'HTTP_USER_AGENT', FILTER_SANITIZE_STRING);
-$http_client_ip         = @filter_input(INPUT_SERVER, 'HTTP_CLIENT_IP', FILTER_SANITIZE_STRING);
-$http_x_forwarded_for   = @filter_input(INPUT_SERVER, 'HTTP_X_FORWARDED_FOR', FILTER_SANITIZE_STRING);
-$remote_addr            = @filter_input(INPUT_SERVER, 'REMOTE_ADDR', FILTER_SANITIZE_STRING);
+$user_agent             = @$_SERVER['HTTP_USER_AGENT'];
+$http_client_ip         = @$_SERVER['HTTP_CLIENT_IP'];
+$http_x_forwarded_for   = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+$remote_addr            = @$_SERVER['REMOTE_ADDR'];
 
 function HTMLError($arg)
 {
@@ -124,6 +124,7 @@ function CheckOnlineStatus()
 
 function GetOperationSystem() 
 {
+    global $user_agent;
     $os_platform    =   "Unknown OS Platform";
     $os_array       =   array(
                             '/windows nt 10.0/i'    =>  'Windows 10',
@@ -159,6 +160,8 @@ function GetOperationSystem()
 
 function DoRegister($username, $password, $mail)
 {
+    global $http_client_ip, $http_x_forwarded_for, $remote_addr;
+
     // Convert plain password to salted sha1 hash
     $password_hash  = sha1($username . ':' . $password);
 
