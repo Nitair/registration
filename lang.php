@@ -39,6 +39,7 @@ $lang = [
        'ERR_INSTALLER_QUERY'    => 'Installer was not able to execute needed queries (Please check the database connection)',
        'SUCCESS_INSTALLER_SQL'  => 'The SQL was executed successfully',
        'SUCCESS_INSTALLER_MSG'  => 'The installation was successful',
+       'MAINTENANCE_MODE'       => 'Maintenance Mode active. Please visit us later again.',
     ],
     'de' => [
        // General
@@ -67,6 +68,7 @@ $lang = [
        'ERR_INSTALLER_QUERY'    => 'Fehler beim ausführen von notwendingen SQL-Jobs',
        'SUCCESS_INSTALLER_SQL'  => 'Der SQL-Vorgang war erfolgreich',
        'SUCCESS_INSTALLER_MSG'  => 'Der Installierungsprozess war erfolgreich',
+       'MAINTENANCE_MODE'       => 'Wartungsarbeiten aktiv. Bitte besuche uns später wieder.',
     ],
  ];
 

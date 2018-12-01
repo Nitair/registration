@@ -7,6 +7,8 @@ if (strpos($_SERVER['REQUEST_URI'], basename(__FILE__)) !== false) {
     die();
 }
 
+include_once 'config.php';
+
 // Define super-globals outside of functions!
 //! Does output undefined index on localhost
 $user_agent             = @$_SERVER['HTTP_USER_AGENT'];
@@ -16,10 +18,44 @@ $remote_addr            = @$_SERVER['REMOTE_ADDR'];
 
 function HTMLError($arg)
 {
-    echo '<i class="fa fa-exclamation-triangle fa-5x" aria-hidden="true" style="color:red;"></i>
-    <br><br>
+    echo 
+    '
+    <!-- A wild error appeared -->
+    <i class="fa fa-exclamation-triangle fa-5x" style="color: red;"></i>
+    <br>
+    <br>
     <span style="color: red; font-weight: bold;">', filter_var($arg, FILTER_SANITIZE_STRING), '</span>
-    <br><br>';
+    <br>
+    <br>
+    ';
+}
+
+function HTMLMaintenance($arg)
+{
+    echo 
+    '
+    <!-- Huh? -->
+    <i class="fas fa-wrench fa-5x" style="color: red;"></i>
+    <br>
+    <br>
+    <span style="color: red; font-weight: bold;">', filter_var($arg, FILTER_SANITIZE_STRING), '</span>
+    <br>
+    <br>
+    ';
+}
+
+function HTMLSuccess($arg)
+{
+    echo 
+    '
+    <!-- Yay something worked here -->
+    <i class="fas fa-user-check fa-5x" style="color: lime;"></i>
+    <br>
+    <br>
+    <span style="color: lime; font-weight: bold;">', filter_var($arg, FILTER_SANITIZE_STRING), '</span>
+    <br>
+    <br>
+    ';
 }
 
 function ExecuteInstallerSQL()
@@ -76,20 +112,6 @@ function GetDomainName($GetPlainOrHTTP)
         return 'localhost';
     }
     return 'http://localhost/registration';
-}
-
-function BuildConnection($debug)
-{
-    $dbname = 'auth';
-    $dbhost = 'localhost';
-    $dbport = '3306';
-    $dbuser = 'trinity';
-    $dbpass = 'trinity';
-
-    if ($debug == true) {
-        return @new PDO("mysql:host=$dbhost;dbname=$dbname;port=$dbport", $dbuser, $dbpass, array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-    }
-    return @new PDO("mysql:host=$dbhost;dbname=$dbname;port=$dbport", $dbuser, $dbpass);
 }
 
 function CheckUsername($username)
@@ -188,10 +210,8 @@ function DoRegister($username, $password, $mail)
         )
     );
     if ($result == false) {
-        echo "Report: Something went wrong.";
         return;
     }
-    echo "Report: Registration was done successfully.";
     $pdo = null;
     return;
 }

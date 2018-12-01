@@ -14,6 +14,9 @@ include_once 'functions.php';
 // Show all fields
 $ShowFormular = true;
 
+// ???
+$maintenance_mode = true;
+
 // Sanitize $_GET['register']
 $register = filter_input(INPUT_GET, 'register', FILTER_SANITIZE_SPECIAL_CHARS);
 
@@ -47,7 +50,7 @@ if (isset($register))
         $error_message = $lang[GetLang()]['ERR_PASS_NOT_MATCH'];
         $error = true;
     }
-    else if (!filter_var($mail, FILTER_VALIDATE_EMAIL) || is_empty($mail))
+    else if (!filter_var($mail, FILTER_VALIDATE_EMAIL) || !isset($mail))
     {
         $error_message = $lang[GetLang()]['ERR_MAIL_NOT_VALID'];
         $error = true;
@@ -62,13 +65,14 @@ if (isset($register))
     
         if ($error == false)
         {
+            $register_process = 'Registration successfully done';
             DoRegister(strtolower($username), $password2, $mail);
         }
     }
 }
 
 // show register form
-if (($ShowFormular == true) && (file_exists('.installed') == true))
+if (($ShowFormular == true) && (file_exists('.installed') == true) && ($maintenance_mode === false))
 {
     echo '
     <br>
@@ -82,12 +86,16 @@ if (($ShowFormular == true) && (file_exists('.installed') == true))
         <h2>'; echo $lang[GetLang()]['FORM_USERNAME_TEXT'],'</h2>
         <hr>
         ';
-        if (isset($error_message))
+        if (!empty($error_message))
         {
             HTMLError(filter_var($error_message, FILTER_SANITIZE_STRING));
         }
+        else if (!empty($register_process))
+        {
+            HTMLSuccess(filter_var($register_process, FILTER_SANITIZE_STRING));
+        }
         echo '
-        <form class="form-horizontal" action="?register=1" method="post">
+        <form class="form-horizontal" action="?register" method="post">
             <div class="form-group">
             <div class="input-group mb-2 mb-sm-0">
                 <i class="material-icons md-36" style="width: 40; background: #FFF; color: #000;">person</i>
@@ -117,13 +125,15 @@ if (($ShowFormular == true) && (file_exists('.installed') == true))
             ';
             if (CheckOnlineStatus())
             {
-                echo '<button type="submit" class="btn btn-primary">'; echo $lang[GetLang()]['SUBMIT_BUTTON_SUCCESS'] ,'</button>';
+                echo '<button type="submit" class="btn btn-primary">'; echo $lang[GetLang()]['SUBMIT_BUTTON_SUCCESS'] ,'</button>
+                      <a class="btn btn-primary" href="'; echo filter_var(GetDomainName(true), FILTER_SANITIZE_STRING), '" role="button">Reload</a>';
             }
             else
             {
                 echo '<a class="btn btn-danger disabled" href="#" role="button">
                         <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> '; echo $lang[GetLang()]['SUBMIT_BUTTON_ERROR'] ,'
-                     </a>';
+                     </a>
+                     <a class="btn btn-primary" href="'; echo filter_var(GetDomainName(true), FILTER_SANITIZE_STRING), '" role="button">Reload</a>';
             }
             echo 
             '</div>
@@ -132,6 +142,25 @@ if (($ShowFormular == true) && (file_exists('.installed') == true))
         <div class="col-sm-3" style="text-align:center;">
         </div>
     </div>
+    </div>
+    ';
+}
+else if ($maintenance_mode === true)
+{
+    echo '
+    <br>
+    <br>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3" style="text-align:center;">
+            </div>
+            <div class="col-sm-6" style="text-align:center;">'
+            , HTMLMaintenance(filter_var($lang[GetLang()]['MAINTENANCE_MODE'], FILTER_SANITIZE_STRING)); 
+            '</div>
+            <div class="col-sm-3" style="text-align:center;">
+            </div>
+        </div>
     </div>
     ';
 }
