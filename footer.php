@@ -8,6 +8,6 @@ if (strpos($_SERVER['REQUEST_URI'], basename(__FILE__)) !== false) {
 }
 ?>
 <footer style="text-align: center;">
-&copy; echo date("Y") example-network.com 
+&copy; <?php echo date("Y"); ?> example-network.com 
 </footer>
 </html>
