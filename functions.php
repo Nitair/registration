@@ -24,7 +24,7 @@ function HTMLError($arg)
     <i class="fa fa-exclamation-triangle fa-5x" style="color: red;"></i>
     <br>
     <br>
-    <span style="color: red; font-weight: bold;">', filter_var($arg, FILTER_SANITIZE_STRING), '</span>
+        <span style="color: red; font-weight: bold;">', filter_var($arg, FILTER_SANITIZE_STRING), '</span>
     <br>
     <br>
     ';
@@ -38,7 +38,7 @@ function HTMLMaintenance($arg)
     <i class="fas fa-wrench fa-5x" style="color: red;"></i>
     <br>
     <br>
-    <span style="color: red; font-weight: bold;">', filter_var($arg, FILTER_SANITIZE_STRING), '</span>
+        <span style="color: red; font-weight: bold;">', filter_var($arg, FILTER_SANITIZE_STRING), '</span>
     <br>
     <br>
     ';
@@ -52,7 +52,7 @@ function HTMLSuccess($arg)
     <i class="fas fa-user-check fa-5x" style="color: lime;"></i>
     <br>
     <br>
-    <span style="color: lime; font-weight: bold;">', filter_var($arg, FILTER_SANITIZE_STRING), '</span>
+        <span style="color: lime; font-weight: bold;">', filter_var($arg, FILTER_SANITIZE_STRING), '</span>
     <br>
     <br>
     ';

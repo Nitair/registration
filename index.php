@@ -17,11 +17,8 @@ $ShowFormular = true;
 // ???
 $maintenance_mode = true;
 
-// Sanitize $_GET['register']
-$register = filter_input(INPUT_GET, 'register', FILTER_SANITIZE_SPECIAL_CHARS);
-
 // Register form handling
-if (isset($register)) 
+if (!empty($_GET['register']))
 {
     $error          = false;
     $error_message  = '';
@@ -62,126 +59,137 @@ if (isset($register))
             $error_message = $lang[GetLang()]['ERR_USER_ALREADY_EXIST'];
             $error = true;
         }
-    
+
         if ($error == false)
         {
             $register_process = 'Registration successfully done';
-            DoRegister(strtolower($username), $password2, $mail);
+            DoRegister(strtoupper($username), strtoupper($password2), $mail);
         }
     }
 }
-
+?>
+<body>
+<?php
 // show register form
 if (($ShowFormular == true) && (file_exists('.installed') == true) && ($maintenance_mode === false))
 {
-    echo '
-    <br>
-    <br>
-    <br>
-    <div class="container">
-    <div class="row">    
+?>
+<br>
+<br>
+<br>
+<div class="container">
+    <div class="row">
         <div class="col-sm-3" style="text-align:center;">
         </div>
         <div class="col-sm-6" style="text-align:center;">
-        <h2>'; echo $lang[GetLang()]['FORM_USERNAME_TEXT'],'</h2>
-        <hr>
-        ';
-        if (!empty($error_message))
-        {
-            HTMLError(filter_var($error_message, FILTER_SANITIZE_STRING));
-        }
-        else if (!empty($register_process))
-        {
-            HTMLSuccess(filter_var($register_process, FILTER_SANITIZE_STRING));
-        }
-        echo '
-        <form class="form-horizontal" action="?register" method="post">
-            <div class="form-group">
-            <div class="input-group mb-2 mb-sm-0">
-                <i class="material-icons md-36" style="width: 40; background: #FFF; color: #000;">person</i>
-                <input type="username" class="form-control" id="username" placeholder="'; echo $lang[GetLang()]['FORM_USERNAME_TEXT'],'" name="username">
-            </div>
-            </div>
-            <div class="form-group">
-            <div class="input-group mb-2 mb-sm-0">
-                <i class="material-icons md-36" style="width: 40; background: #FFF; color: #000;">email</i>
-                <input type="email" class="form-control" id="mail" placeholder="'; echo $lang[GetLang()]['FORM_EMAIL_TEXT'],'" name="mail">
-            </div>
-            </div>
-            <div class="form-group">
-            <div class="input-group mb-2 mb-sm-0">
-                <i class="material-icons md-36" style="width: 40; background: #FFF; color: #000;">vpn_key</i>
-                <input type="password" class="form-control" id="password1" placeholder="'; echo $lang[GetLang()]['FORM_PASSWORD_TEXT'],'" name="password1">
-            </div>
-            </div>
-            <div class="form-group">
-            <div class="input-group mb-2 mb-sm-0">
-                <i class="material-icons md-36" style="width: 40; background: #FFF; color: #000;">vpn_key</i>
-                <input type="password" class="form-control" id="password2" placeholder="'; echo $lang[GetLang()]['FORM_REPASSWORD_TEXT'],'" name="password2">
-            </div>
-            </div>
+            <h2>
+                <?php echo $lang[GetLang()]['FORM_USERNAME_TEXT'] ?>
+            </h2>
             <hr>
-            <div class="col-auto" style="text-align: center;">
-            ';
-            if (CheckOnlineStatus())
+            <?php
+            if (!empty($error_message))
             {
-                echo '<button type="submit" class="btn btn-primary">'; echo $lang[GetLang()]['SUBMIT_BUTTON_SUCCESS'] ,'</button>
-                      <a class="btn btn-primary" href="'; echo filter_var(GetDomainName(true), FILTER_SANITIZE_STRING), '" role="button">Reload</a>';
+                HTMLError(filter_var($error_message, FILTER_SANITIZE_STRING));
             }
-            else
+            else if (!empty($register_process))
             {
-                echo '<a class="btn btn-danger disabled" href="#" role="button">
-                        <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> '; echo $lang[GetLang()]['SUBMIT_BUTTON_ERROR'] ,'
-                     </a>
-                     <a class="btn btn-primary" href="'; echo filter_var(GetDomainName(true), FILTER_SANITIZE_STRING), '" role="button">Reload</a>';
+                HTMLSuccess(filter_var($register_process, FILTER_SANITIZE_STRING));
             }
-            echo 
-            '</div>
-        </form>
+            ?>
+            <form class="form-horizontal" action="?register" method="post">
+                <div class="form-group">
+                    <div class="input-group mb-2 mb-sm-0">
+                        <i class="material-icons md-36" style="width: 40; background: #FFF; color: #000;">person</i>
+                        <input type="username" class="form-control" id="username" placeholder="'; echo $lang[GetLang()]['FORM_USERNAME_TEXT'],'"
+                            name="username">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group mb-2 mb-sm-0">
+                        <i class="material-icons md-36" style="width: 40; background: #FFF; color: #000;">email</i>
+                        <input type="email" class="form-control" id="mail" placeholder="'; echo $lang[GetLang()]['FORM_EMAIL_TEXT'],'"
+                            name="mail">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group mb-2 mb-sm-0">
+                        <i class="material-icons md-36" style="width: 40; background: #FFF; color: #000;">vpn_key</i>
+                        <input type="password" class="form-control" id="password1" placeholder="'; echo $lang[GetLang()]['FORM_PASSWORD_TEXT'],'"
+                            name="password1">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="input-group mb-2 mb-sm-0">
+                        <i class="material-icons md-36" style="width: 40; background: #FFF; color: #000;">vpn_key</i>
+                        <input type="password" class="form-control" id="password2" placeholder="'; echo $lang[GetLang()]['FORM_REPASSWORD_TEXT'],'"
+                            name="password2">
+                    </div>
+                </div>
+                <hr>
+                <div class="col-auto" style="text-align: center;">
+                <?php
+                if (CheckOnlineStatus())
+                {
+                    echo '<button type="submit" class="btn btn-primary">'; echo $lang[GetLang()]['SUBMIT_BUTTON_SUCCESS'] ,'</button>
+                            <a class="btn btn-primary" href="'; echo filter_var(GetDomainName(true), FILTER_SANITIZE_STRING), '" role="button">Reload</a>';
+                }
+                else
+                {
+                    echo '<a class="btn btn-danger disabled" href="#" role="button">
+                            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> '; echo $lang[GetLang()]['SUBMIT_BUTTON_ERROR'] ,'
+                            </a>
+                            <a class="btn btn-primary" href="'; echo filter_var(GetDomainName(true), FILTER_SANITIZE_STRING), '" role="button">Reload</a>';
+                }
+                ?>
+                </div>
+            </form>
         </div>
         <div class="col-sm-3" style="text-align:center;">
         </div>
     </div>
-    </div>
-    ';
+</div>
+<?php
 }
-else if ($maintenance_mode === true)
+else if($maintenance_mode === true)
 {
-    echo '
-    <br>
-    <br>
-    <br>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-3" style="text-align:center;">
-            </div>
-            <div class="col-sm-6" style="text-align:center;">'
-            , HTMLMaintenance(filter_var($lang[GetLang()]['MAINTENANCE_MODE'], FILTER_SANITIZE_STRING)); 
-            '</div>
-            <div class="col-sm-3" style="text-align:center;">
-            </div>
+?>
+<br>
+<br>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3" style="text-align:center;">
+        </div>
+        <div class="col-sm-6" style="text-align:center;">'
+            <?php HTMLMaintenance(filter_var($lang[GetLang()]['MAINTENANCE_MODE'], FILTER_SANITIZE_STRING)); ?>
+        </div>
+        <div class="col-sm-3" style="text-align:center;">
         </div>
     </div>
-    ';
+</div>
+<?php
 }
 else
 {
-    echo '
-    <br>
-    <br>
-    <br>
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-3" style="text-align:center;">
-            </div>
-            <div class="col-sm-6" style="text-align:center;">'
-            , HTMLError(filter_var($lang[GetLang()]['ERR_INSTALLER_QUERY'], FILTER_SANITIZE_STRING)); 
-            '</div>
-            <div class="col-sm-3" style="text-align:center;">
-            </div>
+?>
+<br>
+<br>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3" style="text-align:center;">
+        </div>
+        <div class="col-sm-6" style="text-align:center;">'
+            <?php HTMLError(filter_var($lang[GetLang()]['ERR_INSTALLER_QUERY'], FILTER_SANITIZE_STRING)); ?>
+        </div>
+        <div class="col-sm-3" style="text-align:center;">
         </div>
     </div>
-    ';
+</div>
+<?php
 }
-
+?>
+</body>
+<?php
 include_once 'footer.php';
+?>
