@@ -100,28 +100,28 @@ if (($ShowFormular == true) && (file_exists('.installed') == true) && ($maintena
                 <div class="form-group">
                     <div class="input-group mb-2 mb-sm-0">
                         <i class="material-icons md-36" style="width: 40; background: #FFF; color: #000;">person</i>
-                        <input type="username" class="form-control" id="username" placeholder="'; echo $lang[GetLang()]['FORM_USERNAME_TEXT'],'"
+                        <input type="username" class="form-control" id="username" placeholder="<?php echo $lang[GetLang()]['FORM_USERNAME_TEXT'] ?>"
                             name="username">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="input-group mb-2 mb-sm-0">
                         <i class="material-icons md-36" style="width: 40; background: #FFF; color: #000;">email</i>
-                        <input type="email" class="form-control" id="mail" placeholder="'; echo $lang[GetLang()]['FORM_EMAIL_TEXT'],'"
+                        <input type="email" class="form-control" id="mail" placeholder="<?php echo $lang[GetLang()]['FORM_EMAIL_TEXT'] ?>"
                             name="mail">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="input-group mb-2 mb-sm-0">
                         <i class="material-icons md-36" style="width: 40; background: #FFF; color: #000;">vpn_key</i>
-                        <input type="password" class="form-control" id="password1" placeholder="'; echo $lang[GetLang()]['FORM_PASSWORD_TEXT'],'"
+                        <input type="password" class="form-control" id="password1" placeholder="<?php echo $lang[GetLang()]['FORM_PASSWORD_TEXT'] ?>"
                             name="password1">
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="input-group mb-2 mb-sm-0">
                         <i class="material-icons md-36" style="width: 40; background: #FFF; color: #000;">vpn_key</i>
-                        <input type="password" class="form-control" id="password2" placeholder="'; echo $lang[GetLang()]['FORM_REPASSWORD_TEXT'],'"
+                        <input type="password" class="form-control" id="password2" placeholder="<?php echo $lang[GetLang()]['FORM_REPASSWORD_TEXT'] ?>"
                             name="password2">
                     </div>
                 </div>
@@ -131,7 +131,7 @@ if (($ShowFormular == true) && (file_exists('.installed') == true) && ($maintena
                 if (CheckOnlineStatus())
                 {
                     echo '<button type="submit" class="btn btn-primary">'; echo $lang[GetLang()]['SUBMIT_BUTTON_SUCCESS'] ,'</button>
-                            <a class="btn btn-primary" href="'; echo filter_var(GetDomainName(true), FILTER_SANITIZE_STRING), '" role="button">Reload</a>';
+                            <a class="btn btn-primary" href="'; echo filter_var(GetDomainName(true), FILTER_SANITIZE_STRING) ,'" role="button">Reload</a>';
                 }
                 else
                 {
